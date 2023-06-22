@@ -3,8 +3,8 @@ export enum TokenType {
   MoveRight,
   Increment,
   Decrement,
-  Output,
   Input,
+  Output,
   Loop,
 }
 
@@ -35,12 +35,12 @@ export default function parse(program: string) {
         groups[groupIndex].push({ type: TokenType.Decrement });
         break;
 
-      case ".":
-        groups[groupIndex].push({ type: TokenType.Output });
-        break;
-
       case ",":
         groups[groupIndex].push({ type: TokenType.Input });
+        break;
+
+      case ".":
+        groups[groupIndex].push({ type: TokenType.Output });
         break;
 
       case "[":

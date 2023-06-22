@@ -5,7 +5,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node .esbuildrc.js",
     "lint": "eslint src --fix",
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/test.ts"
   },
   "author": "Stilic <lateman-jpeg@outlook.fr>",
   "license": "MIT",

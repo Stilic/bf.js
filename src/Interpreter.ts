@@ -3,7 +3,8 @@ import { Token, TokenType } from "./Parser";
 export default class Interpreter {
   public readonly source: Token[];
 
-  public onInput: () => string;
+  public onInput?: () => string;
+  public onOutput?: (char: string) => void;
 
   private cells: number[];
   private currentCell: number;
@@ -17,9 +18,7 @@ export default class Interpreter {
       this.cells[this.currentCell] = 0;
   }
 
-  private executeCommand(command: Token): string | undefined {
-    let output: string | undefined;
-
+  private executeCommand(command: Token) {
     switch (command.type) {
       case TokenType.MoveLeft:
         if (this.currentCell > 0) this.currentCell--;
@@ -39,11 +38,6 @@ export default class Interpreter {
         else this.cells[this.currentCell]--;
         break;
 
-      case TokenType.Output:
-        this.prepareCurrentCell();
-        output = String.fromCharCode(this.cells[this.currentCell]);
-        break;
-
       case TokenType.Input:
         if (this.onInput) {
           const input = this.onInput();
@@ -55,34 +49,29 @@ export default class Interpreter {
         }
         break;
 
+      case TokenType.Output:
+        this.prepareCurrentCell();
+        if (this.onOutput)
+          this.onOutput(String.fromCharCode(this.cells[this.currentCell]));
+        break;
+
       case TokenType.Loop:
         if (command.content) {
-          output = "";
           while (this.cells[this.currentCell] !== 0) {
-            for (let i = 0; i < command.content.length; ++i) {
-              const char = this.executeCommand(command.content[i]);
-              if (char) output += char;
-            }
+            for (let i = 0; i < command.content.length; ++i)
+              this.executeCommand(command.content[i]);
           }
         }
     }
-
-    return output;
   }
 
-  public async run(): Promise<string> {
-    let output = "";
-
+  public async run() {
     this.cells = [];
     this.currentCell = 0;
 
     this.prepareCurrentCell();
 
-    for (let i = 0; i < this.source.length; ++i) {
-      const char = this.executeCommand(this.source[i]);
-      if (char) output += char;
-    }
-
-    return output;
+    for (let i = 0; i < this.source.length; ++i)
+      this.executeCommand(this.source[i]);
   }
 }
