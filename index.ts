@@ -1,4 +1,65 @@
-import { Token, TokenType } from "./Parser";
+export enum TokenType {
+  MoveLeft,
+  MoveRight,
+  Increment,
+  Decrement,
+  Input,
+  Output,
+  Loop,
+}
+
+export type Token = {
+  type: TokenType;
+  content?: Token[];
+};
+
+export function parse(program: string) {
+  const groups: Token[][] = [[]];
+  let groupIndex = 0;
+
+  for (let i = 0; i < program.length; ++i) {
+    switch (program[i]) {
+      case "<":
+        groups[groupIndex].push({ type: TokenType.MoveLeft });
+        break;
+
+      case ">":
+        groups[groupIndex].push({ type: TokenType.MoveRight });
+        break;
+
+      case "+":
+        groups[groupIndex].push({ type: TokenType.Increment });
+        break;
+
+      case "-":
+        groups[groupIndex].push({ type: TokenType.Decrement });
+        break;
+
+      case ",":
+        groups[groupIndex].push({ type: TokenType.Input });
+        break;
+
+      case ".":
+        groups[groupIndex].push({ type: TokenType.Output });
+        break;
+
+      case "[":
+        const token = { type: TokenType.Loop, content: [] };
+        groups[groupIndex].push(token);
+        groupIndex = groups.push(token.content) - 1;
+        break;
+
+      case "]":
+        if (groupIndex < 1) throw "Unmatched ]";
+        groups.pop();
+        groupIndex--;
+    }
+  }
+
+  if (groupIndex > 0) throw "Unmatched [";
+
+  return groups[0];
+}
 
 export default class Interpreter {
   public readonly source: Token[];
@@ -6,8 +67,8 @@ export default class Interpreter {
   public onInput?: () => string;
   public onOutput?: (char: string) => void;
 
-  private cells: number[];
-  private currentCell: number;
+  private cells: number[] = [];
+  private currentCell = 0;
 
   constructor(source: Token[]) {
     this.source = source;

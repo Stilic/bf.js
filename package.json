@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node .esbuildrc.js",
-    "lint": "eslint src --fix",
-    "dev": "tsx watch src/test.ts"
+    "build": "node .esbuildrc.js && tsc --emitDeclarationOnly --declaration",
+    "lint": "eslint src --fix"
   },
   "author": "Stilic <lateman-jpeg@outlook.fr>",
   "license": "MIT",
@@ -19,7 +18,6 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-promise": "^6.1.1",
-    "tsx": "^3.12.7",
     "typescript": "^5.1.3"
   },
   "private": true
