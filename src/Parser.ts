@@ -56,7 +56,7 @@ export default function parse(program: string) {
     }
   }
 
-  if (groups.length > 1) throw "Unmatched [";
+  if (groupIndex > 0) throw "Unmatched [";
 
   return groups[0];
 }

@@ -4,7 +4,7 @@ import Interpreter from "./Interpreter";
 new Interpreter(
   parse(
     `
-	+++++[>+++++++>++<<-]>.>.][
+	+++++[>+++++++>++<<-]>.>.[
 	`
   )
 )
