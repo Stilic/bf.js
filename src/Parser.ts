@@ -50,10 +50,13 @@ export default function parse(program: string) {
         break;
 
       case "]":
+        if (groupIndex < 1) throw "Unmatched ]";
         groups.pop();
         groupIndex--;
     }
   }
+
+  if (groups.length > 1) throw "Unmatched [";
 
   return groups[0];
 }

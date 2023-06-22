@@ -47,7 +47,7 @@ export default class Interpreter {
       case TokenType.Input:
         if (this.onInput) {
           const input = this.onInput();
-          if (input.length === 0) throw "Input can't be empty!";
+          if (input.length === 0) throw "Input can't be empty";
           else {
             this.prepareCurrentCell();
             this.cells[this.currentCell] = input.charCodeAt(0);
