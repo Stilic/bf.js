@@ -7,7 +7,7 @@ const interpreter = new Interpreter(
     +++[>+++++<-]>[>+>+++>+>++>+++++>++<[++<]>---]>->-.[>++>+<<--]>--.--.+.>
     >>++.<<.<------.+.+++++.>>-.<++++.<--.>>>.<<---.<.-->-.>+.[+++++.---<]>>
     [.--->]<<.<+.++.++>+++[.<][http://www.hevanet.com/cristofd/brainfuck/]<.
-      `
+    `
   )
 );
 interpreter.onOutput = (char) => process.stdout.write(char);
