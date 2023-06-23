@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "amd",
-    "outFile": "./lib/brainhump",
+    "outDir": "lib",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

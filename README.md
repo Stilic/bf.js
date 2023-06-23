@@ -1,2 +1,3 @@
 # brainhump
-Experimental Brainf**k clone.
+
+Experimental Brainf\*\*k clone.

@@ -1,24 +1,41 @@
 {
-  "name": "brainhump",
+  "name": "bf.js",
   "version": "1.0.0",
+  "description": "A tiny library for parsing and interpreting Brainfuck code",
+  "main": "lib/index.js",
+  "author": "Stilic <lateman-jpeg@outlook.fr>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stilic/bf.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Stilic/bf.js/issues"
+  },
+  "homepage": "https://github.com/Stilic/bf.js#readme",
+  "keywords": [
+    "parser",
+    "interpreter",
+    "brainfuck"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node .esbuildrc.js && tsc --emitDeclarationOnly --declaration",
-    "lint": "eslint src --fix"
+    "lint": "eslint src --fix",
+    "format": "prettier --write ."
   },
-  "author": "Stilic <lateman-jpeg@outlook.fr>",
-  "license": "MIT",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "@typescript-eslint/parser": "^5.60.0",
     "esbuild": "^0.18.6",
     "esbuild-node-externals": "^1.7.0",
     "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard-with-typescript": "^35.0.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-promise": "^6.1.1",
+    "prettier": "^2.8.8",
     "typescript": "^5.1.3"
-  },
-  "private": true
+  }
 }
