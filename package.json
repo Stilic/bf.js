@@ -1,5 +1,5 @@
 {
-  "name": "bf.js",
+  "name": "@stilic_dev/bf.js",
   "version": "1.0.0",
   "description": "A tiny library for parsing and interpreting Brainfuck code",
   "main": "lib/index.js",
