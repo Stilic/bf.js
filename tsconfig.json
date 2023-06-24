@@ -1,4 +1,5 @@
 {
+  "exclude": ["examples/**/*"],
   "compilerOptions": {
     "target": "es2016",
     "module": "amd",

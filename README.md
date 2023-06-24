@@ -1,3 +1,3 @@
-# brainhump
+# bf.js
 
-Experimental Brainf\*\*k clone.
+A tiny library for parsing and interpreting Brainf\*\*k code

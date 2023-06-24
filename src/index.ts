@@ -13,11 +13,11 @@ export type Token = {
   content?: Token[];
 };
 
-export function parse(program: string) {
+export function parse(program: string): Token[] {
   const groups: Token[][] = [[]];
   let groupIndex = 0;
 
-  for (let i = 0; i < program.length; ++i) {
+  for (let i = 0; i < program.length; i++) {
     switch (program[i]) {
       case "<":
         groups[groupIndex].push({ type: TokenType.MoveLeft });
@@ -61,78 +61,103 @@ export function parse(program: string) {
   return groups[0];
 }
 
-export default class Interpreter {
+class InterpreterMemory {
+  private cells: number[] = [];
+
+  public get(cell: number) {
+    if (Object.prototype.hasOwnProperty.call(this.cells, cell))
+      return this.cells[cell];
+    else return 0;
+  }
+
+  public set(cell: number, value: number) {
+    if (value > Number.MAX_SAFE_INTEGER) value = 0;
+    else if (value < 0) value = Number.MAX_SAFE_INTEGER;
+
+    this.cells[cell] = Math.trunc(value);
+  }
+
+  public reset() {
+    this.cells.length = 0;
+  }
+}
+
+export class Interpreter {
   public readonly source: Token[];
 
   public onInput?: () => string;
-  public onOutput?: (char: string) => void;
+  public onOutput?: (char: string | number) => void;
 
-  private cells: number[] = [];
+  private memory: InterpreterMemory = new InterpreterMemory();
   private currentCell = 0;
 
   constructor(source: Token[]) {
     this.source = source;
   }
 
-  private prepareCurrentCell() {
-    if (!Object.prototype.hasOwnProperty.call(this.cells, this.currentCell))
-      this.cells[this.currentCell] = 0;
-  }
-
-  private executeCommand(command: Token) {
+  private async executeCommand(command: Token) {
     switch (command.type) {
       case TokenType.MoveLeft:
         if (this.currentCell > 0) this.currentCell--;
-        this.prepareCurrentCell();
         break;
 
       case TokenType.MoveRight:
         this.currentCell++;
-        this.prepareCurrentCell();
         break;
 
       case TokenType.Increment:
       case TokenType.Decrement:
-        this.prepareCurrentCell();
-        if (command.type === TokenType.Increment)
-          this.cells[this.currentCell]++;
-        else this.cells[this.currentCell]--;
+        this.memory.set(
+          this.currentCell,
+          this.memory.get(this.currentCell) +
+            (command.type === TokenType.Increment ? 1 : -1)
+        );
         break;
 
       case TokenType.Input:
         if (this.onInput) {
-          const input = this.onInput();
+          let input = this.onInput();
           if (input.length === 0) throw "Input can't be empty";
           else {
-            this.prepareCurrentCell();
-            this.cells[this.currentCell] = input.charCodeAt(0);
+            if (typeof input === "number")
+              this.memory.set(this.currentCell, input);
+            else {
+              const end = input.indexOf("\n");
+              if (end !== -1) input = input.substring(0, end);
+
+              let result = +input;
+              if (isNaN(result)) {
+                result = 0;
+                for (let i = 0; i < input.length; i++)
+                  result += input.charCodeAt(i);
+              }
+
+              this.memory.set(this.currentCell, result);
+            }
           }
         }
         break;
 
       case TokenType.Output:
-        this.prepareCurrentCell();
         if (this.onOutput)
-          this.onOutput(String.fromCharCode(this.cells[this.currentCell]));
+          this.onOutput(String.fromCharCode(this.memory.get(this.currentCell)));
         break;
 
       case TokenType.Loop:
         if (command.content) {
-          while (this.cells[this.currentCell] !== 0) {
-            for (let i = 0; i < command.content.length; ++i)
+          while (this.memory.get(this.currentCell) !== 0) {
+            for (let i = 0; i < command.content.length; i++)
               this.executeCommand(command.content[i]);
           }
         }
     }
   }
 
-  public async run() {
-    this.cells = [];
+  public run() {
+    this.memory.reset();
     this.currentCell = 0;
 
-    this.prepareCurrentCell();
-
-    for (let i = 0; i < this.source.length; ++i)
+    for (let i = 0; i < this.source.length; i++)
       this.executeCommand(this.source[i]);
   }
 }

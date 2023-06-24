@@ -1,4 +1,5 @@
 {
+  "ignorePatterns": ["lib/**/*"],
   "env": {
     "browser": true,
     "commonjs": true,
@@ -16,6 +17,7 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "no-case-declarations": "off"
+    "no-case-declarations": "off",
+    "@typescript-eslint/no-var-requires": "off"
   }
 }
