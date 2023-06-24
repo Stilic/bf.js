@@ -5,5 +5,5 @@ const program = new Interpreter(
     "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
   )
 );
-program.onOutput = (char) => console.log(char);
+program.onOutput = (char) => process.stdout.write(char);
 program.run();
