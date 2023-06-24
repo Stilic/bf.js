@@ -1,4 +1,4 @@
-const { Interpreter, parse } = require("../lib/index");
+import { Interpreter, parse } from "../lib/index.js";
 
 const program = new Interpreter(
   parse(
