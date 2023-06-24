@@ -6,7 +6,6 @@ esbuild
     entryPoints: ["src/index.ts"],
     outfile: "lib/index.js",
     bundle: true,
-    minify: true,
     platform: "node",
     format: "cjs",
     target: "node14",
