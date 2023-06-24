@@ -1,6 +1,6 @@
 {
   "name": "@stilic_dev/bf.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A tiny library for parsing and interpreting Brainfuck code",
   "main": "lib/index.js",
   "author": "Stilic <lateman-jpeg@outlook.fr>",

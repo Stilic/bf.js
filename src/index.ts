@@ -92,7 +92,7 @@ export class Interpreter {
     this.source = source;
   }
 
-  private async executeCommand(command: Token) {
+  private executeCommand(command: Token) {
     if (Array.isArray(command)) {
       if (command.length > 0) {
         while (this.memory.get(this.currentCell) !== 0) {
